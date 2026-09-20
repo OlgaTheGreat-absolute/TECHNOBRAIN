@@ -1,0 +1,26 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Quiz;
+use App\Models\QuizAttempt;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<QuizAttempt>
+ */
+class QuizAttemptFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'quiz_id' => Quiz::factory(),
+            'user_id' => User::factory(),
+            'score' => 1,
+            'total_questions' => 1,
+            'answers' => [],
+            'completed_at' => now(),
+        ];
+    }
+}
