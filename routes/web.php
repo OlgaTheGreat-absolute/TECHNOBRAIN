@@ -18,6 +18,7 @@ use App\Http\Controllers\Teacher\ActivityController;
 use App\Http\Controllers\Teacher\GameController as TeacherGameController;
 use App\Http\Controllers\Teacher\LessonController as TeacherLessonController;
 use App\Http\Controllers\Teacher\QuizController;
+use App\Http\Controllers\Teacher\QuizResultController;
 use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +68,9 @@ Route::middleware('auth')->group(function () {
         Route::post('materials/{material}/quizzes/{quiz}/questions', [QuizController::class, 'storeQuestion'])->name('materials.quizzes.questions.store');
         Route::put('materials/{material}/quizzes/{quiz}/questions/{question}', [QuizController::class, 'updateQuestion'])->name('materials.quizzes.questions.update');
         Route::delete('materials/{material}/quizzes/{quiz}/questions/{question}', [QuizController::class, 'destroyQuestion'])->name('materials.quizzes.questions.destroy');
+
+        Route::get('nilai', [QuizResultController::class, 'index'])->name('grades.index');
+        Route::get('nilai/{quiz}', [QuizResultController::class, 'show'])->name('grades.show');
 
         Route::get('kuis/buat', [TeacherGameController::class, 'create'])->name('games.create');
         Route::post('kuis', [TeacherGameController::class, 'store'])->name('games.store');

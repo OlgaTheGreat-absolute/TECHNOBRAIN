@@ -14,7 +14,7 @@ class QuizController extends Controller
 {
     public function store(Request $request, Material $material): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -28,7 +28,7 @@ class QuizController extends Controller
 
     public function destroy(Material $material, Quiz $quiz): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
         abort_unless($quiz->material_id === $material->id, 404);
 
         $quiz->delete();
@@ -38,7 +38,7 @@ class QuizController extends Controller
 
     public function storeQuestion(Request $request, Material $material, Quiz $quiz): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
         abort_unless($quiz->material_id === $material->id, 404);
 
         $validated = $request->validate([
@@ -66,7 +66,7 @@ class QuizController extends Controller
 
     public function updateQuestion(Request $request, Material $material, Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
         abort_unless($quiz->material_id === $material->id, 404);
         abort_unless($question->quiz_id === $quiz->id, 404);
 
@@ -93,7 +93,7 @@ class QuizController extends Controller
 
     public function destroyQuestion(Material $material, Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
         abort_unless($quiz->material_id === $material->id, 404);
         abort_unless($question->quiz_id === $quiz->id, 404);
 

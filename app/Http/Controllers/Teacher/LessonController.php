@@ -76,6 +76,6 @@ class LessonController extends Controller
 
     private function authorizeOwner(Material $material): void
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
     }
 }

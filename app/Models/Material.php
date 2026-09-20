@@ -81,4 +81,9 @@ class Material extends Model
     {
         return $query->where('status', MaterialStatus::Published);
     }
+
+    public function isManageableBy(User $user): bool
+    {
+        return $this->author_id === $user->id || $user->isAdmin();
+    }
 }

@@ -60,6 +60,9 @@ export default function DashboardLayout({ children }) {
                                 <NavItem href={route('teacher.games.create')} active={currentUrl === '/teacher/kuis/buat'}>
                                     + Buat Kuis Cepat
                                 </NavItem>
+                                <NavItem href={route('teacher.grades.index')} active={currentUrl.startsWith('/teacher/nilai')}>
+                                    Nilai Siswa
+                                </NavItem>
                             </>
                         )}
 

@@ -25,7 +25,11 @@ class MaterialController extends Controller
 {
     public function index(): Response
     {
-        $materials = Auth::user()->materials()->with(['department', 'educationLevel'])->latest()->paginate(10);
+        $query = Auth::user()->isAdmin()
+            ? Material::query()
+            : Auth::user()->materials();
+
+        $materials = $query->with(['department', 'educationLevel', 'author'])->latest()->paginate(10);
 
         return Inertia::render('Teacher/Materials/Index', compact('materials'));
     }
@@ -94,7 +98,7 @@ class MaterialController extends Controller
 
     private function authorizeOwner(Material $material): void
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
     }
 
     private function validateMaterial(Request $request): array

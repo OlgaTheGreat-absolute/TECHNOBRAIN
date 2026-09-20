@@ -295,18 +295,8 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Pengenalan Dunia Jaringan',
                 'body' => 'Sebelum masuk ke MikroTik, kenali dulu dasar-dasar jaringan komputer lewat video singkat berikut.',
-                'video_url' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
+                'video_url' => 'https://youtu.be/3jsI6h2EwGA?si=g6sFVgNlK2OIt8Jm',
                 'order' => 0,
-            ]
-        );
-
-        Lesson::firstOrCreate(
-            ['material_id' => $mikrotik->id, 'type' => LessonType::Pdf],
-            [
-                'title' => 'Modul Dasar MikroTik',
-                'body' => 'Baca ringkasan materi dalam bentuk PDF berikut sebelum mengerjakan quiz.',
-                'pdf_url' => 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-                'order' => 1,
             ]
         );
 
@@ -316,7 +306,7 @@ class DatabaseSeeder extends Seeder
                 'title' => $quiz->title,
                 'body' => 'Uji pemahamanmu tentang dasar-dasar MikroTik yang sudah dipelajari.',
                 'quiz_id' => $quiz->id,
-                'order' => 2,
+                'order' => 1,
             ]
         );
     }

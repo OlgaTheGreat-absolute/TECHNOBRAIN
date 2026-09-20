@@ -13,7 +13,7 @@ class ActivityController extends Controller
 {
     public function store(Request $request, Material $material): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -32,7 +32,7 @@ class ActivityController extends Controller
 
     public function destroy(Material $material, Activity $activity): RedirectResponse
     {
-        abort_unless($material->author_id === Auth::id(), 403);
+        abort_unless($material->isManageableBy(Auth::user()), 403);
         abort_unless($activity->material_id === $material->id, 404);
 
         $activity->delete();
