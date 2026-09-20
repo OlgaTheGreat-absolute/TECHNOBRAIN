@@ -1,6 +1,6 @@
 {
-    "buildCommand": "npm run build",
-    "outputDirectory": "public",
+    "buildCommand": "npm run build && rm -rf public-static && cp -r public public-static && rm -f public-static/index.php",
+    "outputDirectory": "public-static",
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.8.0"
