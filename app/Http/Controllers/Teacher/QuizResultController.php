@@ -32,7 +32,7 @@ class QuizResultController extends Controller
 
         $quiz->load('material.author');
 
-        $attempts = $quiz->attempts()->with('user')->latest('completed_at')->get();
+        $attempts = $quiz->attempts()->with('user')->orderBy('completed_at')->get();
 
         return Inertia::render('Teacher/Grades/Show', compact('quiz', 'attempts'));
     }

@@ -10,6 +10,12 @@ function formatDate(isoString) {
     );
 }
 
+const SPEED_MEDALS = ['🥇', '🥈', '🥉'];
+
+function speedRankLabel(rank) {
+    return SPEED_MEDALS[rank - 1] ?? `#${rank}`;
+}
+
 export default function Show({ quiz, attempts }) {
     return (
         <>
@@ -36,6 +42,7 @@ export default function Show({ quiz, attempts }) {
                     <table className="w-full min-w-[480px] text-left text-sm">
                         <thead>
                             <tr className="border-b-2 border-primary-950 text-xs uppercase tracking-wide text-primary-500">
+                                <th className="px-4 py-3">Kecepatan</th>
                                 <th className="px-4 py-3">Siswa</th>
                                 <th className="px-4 py-3">Nilai</th>
                                 <th className="px-4 py-3">Persentase</th>
@@ -43,8 +50,11 @@ export default function Show({ quiz, attempts }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {attempts.map((attempt) => (
+                            {attempts.map((attempt, index) => (
                                 <tr key={attempt.id} className="border-b border-primary-100 last:border-0">
+                                    <td className="px-4 py-3 font-semibold text-primary-900">
+                                        {attempt.completed_at ? speedRankLabel(index + 1) : '—'}
+                                    </td>
                                     <td className="px-4 py-3 font-semibold text-primary-900">{attempt.user?.name ?? 'Pengguna dihapus'}</td>
                                     <td className="px-4 py-3">
                                         {attempt.score} / {attempt.total_questions}
@@ -58,6 +68,12 @@ export default function Show({ quiz, attempts }) {
                         </tbody>
                     </table>
                 </div>
+            )}
+
+            {attempts.length > 0 && (
+                <p className="mt-3 text-xs text-primary-400">
+                    Kecepatan diurutkan dari siswa yang paling awal menyelesaikan quiz (submit tercepat).
+                </p>
             )}
         </>
     );

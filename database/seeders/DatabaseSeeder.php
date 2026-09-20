@@ -257,32 +257,99 @@ class DatabaseSeeder extends Seeder
             ['description' => 'Uji pemahamanmu tentang dasar-dasar MikroTik.']
         );
 
-        $question = QuizQuestion::firstOrCreate(
-            ['quiz_id' => $quiz->id, 'question' => 'Apa fungsi DHCP Server?'],
-            ['order' => 0]
-        );
+        $questions = [
+            [
+                'question' => 'MikroTik adalah perusahaan yang bergerak di bidang apa?',
+                'answers' => ['Jaringan komputer', 'Aplikasi mobile', 'Desain grafis', 'Basis data'],
+                'correct' => 0,
+            ],
+            [
+                'question' => 'MikroTik dikenal luas melalui dua produknya, yaitu...',
+                'answers' => ['Winbox dan WebFig', 'RouterBOARD dan RouterOS', 'LAN dan WAN', 'DNS dan DHCP'],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'Apa fungsi utama RouterOS?',
+                'answers' => [
+                    'Mengedit foto dan video',
+                    'Sistem operasi jaringan yang menyediakan fitur routing, firewall, DHCP, dan lainnya',
+                    'Aplikasi pemutar musik',
+                    'Perangkat keras router',
+                ],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'Apa itu RouterBOARD?',
+                'answers' => [
+                    'Sistem operasi buatan MikroTik',
+                    'Perangkat keras jaringan buatan MikroTik yang dapat menjalankan RouterOS',
+                    'Aplikasi GUI untuk konfigurasi',
+                    'Protokol keamanan jaringan',
+                ],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'Selain pada RouterBOARD, RouterOS juga dapat dijalankan pada...',
+                'answers' => ['Smartphone Android', 'Perangkat x86 dan mesin virtual yang didukung', 'Kalkulator', 'Smart TV'],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'Manakah yang BUKAN termasuk fungsi atau kegunaan MikroTik?',
+                'answers' => [
+                    'Mengatur pembagian alamat IP',
+                    'Mengelola bandwidth pengguna',
+                    'Mengedit dokumen perkantoran',
+                    'Membuat hotspot dan autentikasi pengguna',
+                ],
+                'correct' => 2,
+            ],
+            [
+                'question' => 'Aplikasi GUI yang digunakan untuk konfigurasi RouterOS adalah...',
+                'answers' => ['Winbox', 'Photoshop', 'Notepad', 'Excel'],
+                'correct' => 0,
+            ],
+            [
+                'question' => 'Selain Winbox, MikroTik juga bisa dikonfigurasi lewat browser menggunakan...',
+                'answers' => ['CLI', 'WebFig', 'FTP', 'SSH client saja'],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'Dalam jaringan komputer, apa fungsi Gateway?',
+                'answers' => [
+                    'Menerjemahkan nama domain menjadi alamat IP',
+                    'Jalur keluar menuju jaringan lain',
+                    'Alamat perangkat dalam jaringan',
+                    'Jaringan lokal',
+                ],
+                'correct' => 1,
+            ],
+            [
+                'question' => 'DNS berfungsi untuk...',
+                'answers' => [
+                    'Menerjemahkan nama domain menjadi alamat IP',
+                    'Mengatur bandwidth pengguna',
+                    'Membuat hotspot',
+                    'Menghubungkan LAN ke internet',
+                ],
+                'correct' => 0,
+            ],
+        ];
 
-        if ($question->answers()->count() === 0) {
-            $question->answers()->createMany([
-                ['answer_text' => 'Mengatur tampilan website', 'is_correct' => false, 'order' => 0],
-                ['answer_text' => 'Memberikan IP address secara otomatis', 'is_correct' => true, 'order' => 1],
-                ['answer_text' => 'Menghapus firewall', 'is_correct' => false, 'order' => 2],
-                ['answer_text' => 'Membuat database', 'is_correct' => false, 'order' => 3],
-            ]);
-        }
+        foreach ($questions as $order => $definition) {
+            $question = QuizQuestion::firstOrCreate(
+                ['quiz_id' => $quiz->id, 'question' => $definition['question']],
+                ['order' => $order]
+            );
 
-        $question2 = QuizQuestion::firstOrCreate(
-            ['quiz_id' => $quiz->id, 'question' => 'Perangkat apa yang digunakan untuk menghubungkan beberapa jaringan dan meneruskan paket data?'],
-            ['order' => 1]
-        );
-
-        if ($question2->answers()->count() === 0) {
-            $question2->answers()->createMany([
-                ['answer_text' => 'Router', 'is_correct' => true, 'order' => 0],
-                ['answer_text' => 'Keyboard', 'is_correct' => false, 'order' => 1],
-                ['answer_text' => 'Monitor', 'is_correct' => false, 'order' => 2],
-                ['answer_text' => 'Printer', 'is_correct' => false, 'order' => 3],
-            ]);
+            if ($question->answers()->count() === 0) {
+                foreach ($definition['answers'] as $index => $text) {
+                    $question->answers()->create([
+                        'answer_text' => $text,
+                        'is_correct' => $index === $definition['correct'],
+                        'order' => $index,
+                    ]);
+                }
+            }
         }
 
         return $quiz;
